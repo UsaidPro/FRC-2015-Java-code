@@ -12,58 +12,30 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
 import org.usfirst.frc.team5431.robot.commands.ExampleCommand;
 import org.usfirst.frc.team5431.robot.subsystems.ExampleSubsystem;
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
- */
-
-
 public class Robot extends IterativeRobot
 {
-	Command autonomousCommand; //???? - did this to get rid of the error
-
-	RobotDrive theRobot; // Robot object
-	Joystick LiftJoystick; //Joystick Object for lift
-	Joystick XboxController; //XBOX controller
-	/*
-	 * 
-Axis indexes for Xbox Controller:
-1 - LeftX
-2 - LeftY
-3 - Triggers (Each trigger = 0 to 1, axis value = right - left)
-4 - RightX
-5 - RightY
-6 - DPad Left/Right
-*/
+	Command autonomousCommand; //did this to get rid of the error?(Usaid)
+	
+	RobotDrive Robot; // Robot object
+	Joystick xbox; //Drive the robot
+	Joystick logitech; //Operate the lift
 	
 	int AutoLoopCounter;  //Counts how many seconds have passed during AUTON, increases during autonomous
-    // ^The AutoLoopCounter is removable, only for functionality
-	
+    // ^The AutoLoopCounter is removable, it's only for functionality
 	
 	//These two variable below were copy/pasted from RobotMap.java (have no idea how to make files access
 	//one another in Java
-	public static int leftMotor = 1;//port for leftMotor
-    public static int rightMotor = 2;//port for rightMotor
-	
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
     public void robotInit() {
-    	theRobot = new RobotDrive(leftMotor, rightMotor); /* This sets theRobot to have motors at ports
-    	 									0 and 1 */
-    	LiftJoystick = new Joystick(1); // This sets the lift joystick to USB port 1
-    	XboxController = new Joystick(2); //Sets the Xbox controller to USB port 2
-    
+    	
+    	Robot = new RobotDrive(leftMotor, rightMotor); // This sets theRobot to have motors at ports 0 and 1
     }
 	
 	public void disabledPeriodic() //Default function
@@ -91,8 +63,8 @@ Axis indexes for Xbox Controller:
 
     public void teleopInit() // This runs when teleop is activated by judge
     {
-    	double rightSide = XboxController.getRawAxis(5); // The right joystick on the Xbox Controller (5 is RightY axis)
-    	double leftSide = XboxController.getRawAxis(2); //The left axis on the Xbox Controller (2 is LeftY axis)
+    	double rightSide = xbox.getRawAxis(5); // The right joystick on the Xbox Controller (5 is RightY axis)
+    	double leftSide = xbox.getRawAxis(2); //The left axis on the Xbox Controller (2 is LeftY axis)
     	
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
@@ -100,7 +72,7 @@ Axis indexes for Xbox Controller:
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
         
-        theRobot.tankDrive(leftSide, rightSide);
+        Robot.tankDrive(leftSide, rightSide);
     }
 
     /**
@@ -128,4 +100,3 @@ Axis indexes for Xbox Controller:
         LiveWindow.run();
     }
 }
-// Test edit
