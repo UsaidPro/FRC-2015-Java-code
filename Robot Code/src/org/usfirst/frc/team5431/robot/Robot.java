@@ -1,9 +1,9 @@
-//NOTE-
+//NOTE-'
 // THIS CODE WON'T WORK for sure - no idea how to do this right + no testing = 100% chance to fail in coding
 //This was based off example code - not perfect
 //Autonomous will need edits
 //All comments done here were by FRC or Usaid
-//David
+//David is ok
 package org.usfirst.frc.team5431.robot;
 
 
