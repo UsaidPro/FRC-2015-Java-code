@@ -1,68 +1,47 @@
-//NOTE-
+//TODO Fix the main code::: under Robot.java
 // THIS CODE WON'T WORK for sure - no idea how to do this right + no testing = 100% chance to fail in coding
 //This was based off example code - not perfect
 //Autonomous will need edits
-//All comments done here were by FRC or Usaid
+//All comments done here were by FRC and Usaid and David
 
 package org.usfirst.frc.team5431.robot;
-
-
+//This class corresponds each area with whatever period it is in such as Auto or Teleop
+//To configure joystick buttons/mappings go to IO.java
+//To map what motor controllers/sensors go where go to RobotMap.java
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team5431.robot.commands.ExampleCommand;
 import org.usfirst.frc.team5431.robot.subsystems.ExampleSubsystem;
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
- */
-
-
+import org.usfirst.frc.team5431.robot.OI;
+import org.usfirst.frc.team5431.robot.RobotMap;
 public class Robot extends IterativeRobot
 {
-	Command autonomousCommand; //???? - did this to get rid of the error
-
-	RobotDrive theRobot; // Robot object
-	Joystick LiftJoystick; //Joystick Object for lift
-	Joystick XboxController; //XBOX controller
-	/*
-	 * 
-Axis indexes for Xbox Controller:
-1 - LeftX
-2 - LeftY
-3 - Triggers (Each trigger = 0 to 1, axis value = right - left)
-4 - RightX
-5 - RightY
-6 - DPad Left/Right
-*/
-	
-	int AutoLoopCounter;  //Counts how many seconds have passed during autom, increases during autonomous
-    // ^The AutoLoopCounter is removable, only for functionality
-	
-	
+	Command autonomousCommand; //did this to get rid of the error?(Usaid)
+	int AutoLoopCounter;  //Counts how many seconds have passed during AUTON, increases during autonomous
+    // ^The AutoLoopCounter is removable, it's only for functionality
+	RobotDrive Robot; // Robot object
+	VictorSP lift;
+	Joystick xbox; //Drive the robot
+	Joystick logitech; //Operate the lift
 	//These two variable below were copy/pasted from RobotMap.java (have no idea how to make files access
 	//one another in Java
-	public static int leftMotor = 1;//port for leftMotor
-    public static int rightMotor = 2;//port for rightMotor
-	
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
     public void robotInit() {
-    	theRobot = new RobotDrive(leftMotor, rightMotor); /* This sets theRobot to have motors at ports
-    	 									0 and 1 */
-    	LiftJoystick = new Joystick(1); // This sets the lift joystick to USB port 1
-    	XboxController = new Joystick(2); //Sets the Xbox controller to USB port 2
-    
+    	xbox = new Joystick(0);
+    	logitech = new Joystick(1);
+    	int leftMotor = RobotMap.leftmotor;//Get motor port from RobotMap.java for left motor
+    	int rightMotor = RobotMap.rightmotor;//Get motor port from RobotMap.java for right motor
+    	int liftMotor = RobotMap.liftmotor;//Get motor port from RobotMap.java for
+    	lift = new VictorSP(liftMotor);
+    	Robot = new RobotDrive(leftMotor, rightMotor); // This sets theRobot to have motors at ports 0 and 1
     }
 	
 	public void disabledPeriodic() //Default function
@@ -89,21 +68,27 @@ Axis indexes for Xbox Controller:
         Scheduler.getInstance().run(); //This will run in a loop
     }
 
-    public void teleopInit() // This runs when teleop is activated by judge
+    public void teleopInit() // This runs when teleop is activated by judge/FMS field thingy
     {
-    	double rightSide = XboxController.getRawAxis(5); // The right joystick on the Xbox Controller (5 is RightY axis)
-    	double leftSide = XboxController.getRawAxis(2); //The left axis on the Xbox Controller (2 is LeftY axis)
-    	
+    	double lift = logitech.getRawAxis(2);
+    	double leftSide = xbox.getRawAxis(2);
+    	double rightSide = xbox.getRawAxis(5);
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+<<<<<<< HEAD
         
         theRobot.tankDrive(leftSide, rightSide);
         
+=======
+        Robot.tankDrive(leftSide, rightSide);
+        Robot.setSafetyEnabled(isEnabled());
+        Robot.drive(lift, 0);
+        Robot.
+>>>>>>> origin/master
     }
-
     /**
      * This function is called when the disabled button is hit.
      * You can use it to reset subsystems before shutting down.
@@ -129,4 +114,3 @@ Axis indexes for Xbox Controller:
         LiveWindow.run();
     }
 }
-// Test edit
