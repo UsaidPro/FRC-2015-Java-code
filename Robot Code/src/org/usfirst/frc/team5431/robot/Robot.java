@@ -49,6 +49,21 @@ public class Robot extends IterativeRobot
 	{
 		Scheduler.getInstance().run();
 	}
+	
+	public void autonomousCommand.initialize()
+	{
+		//run auto code here that we only do once
+	}
+	
+	public void autonomousCommand.execute()
+	{
+		//run code that would go into a loop
+	}
+	
+	public void autonomousCommand.interrupted()
+	{
+		//Run what would happen if autonomousCommand failed by error/another function
+	}
 
     public void autonomousInit() //Starts when judge begins autonomous
     {
@@ -57,6 +72,10 @@ public class Robot extends IterativeRobot
         
         //This is where commands that robot would only do once (AT THE BEGINNING of auto) should go
         // Maybe autonomousCommand.start() means to start a series of commands? Where would those be?
+        //If autonomousCommand fails in the middle of running, it will run
+        //autonomousCommand.interrupted() where it would then run another series of steps
+        // Another thing we could do instead is that if we don't want to use autonomousCommand, we simply remove it and have an else statement do another series of steps instead 
+        
 
     }
 
