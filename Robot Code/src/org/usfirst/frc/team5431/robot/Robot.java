@@ -77,6 +77,7 @@ Axis indexes for Xbox Controller:
         if (autonomousCommand != null) autonomousCommand.start(); // If autonomous is off, start it
         
         //This is where commands that robot would only do once (AT THE BEGINNING of auto) should go
+        // Maybe autonomousCommand.start() means to start a series of commands? Where would those be?
 
     }
 
@@ -100,6 +101,7 @@ Axis indexes for Xbox Controller:
         if (autonomousCommand != null) autonomousCommand.cancel();
         
         theRobot.tankDrive(leftSide, rightSide);
+        
     }
 
     /**
