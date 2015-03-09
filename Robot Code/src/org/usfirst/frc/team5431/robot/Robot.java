@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -27,13 +29,18 @@ public class Robot extends IterativeRobot
 	int AutoLoopCounter;  //Counts how many seconds have passed during AUTON, increases during autonomous
     // ^The AutoLoopCounter is removable, it's only for functionality
 	RobotDrive Robot; // Robot object
+	VictorSP lift;
 	Joystick xbox; //Drive the robot
 	Joystick logitech; //Operate the lift
-	int leftMotor = RobotMap.leftmotor;//Get motor port from RobotMap.java for left motor
-	int rightMotor = RobotMap.rightmotor;//Get motor port from RobotMap.java for right motor
 	//These two variable below were copy/pasted from RobotMap.java (have no idea how to make files access
 	//one another in Java
     public void robotInit() {
+    	xbox = new Joystick(0);
+    	logitech = new Joystick(1);
+    	int leftMotor = RobotMap.leftmotor;//Get motor port from RobotMap.java for left motor
+    	int rightMotor = RobotMap.rightmotor;//Get motor port from RobotMap.java for right motor
+    	int liftMotor = RobotMap.liftmotor;//Get motor port from RobotMap.java for
+    	lift = new VictorSP(liftMotor);
     	Robot = new RobotDrive(leftMotor, rightMotor); // This sets theRobot to have motors at ports 0 and 1
     }
 	
@@ -62,6 +69,7 @@ public class Robot extends IterativeRobot
 
     public void teleopInit() // This runs when teleop is activated by judge/FMS field thingy
     {
+    	double lift = logitech.getRawAxis(2);
     	double leftSide = xbox.getRawAxis(2);
     	double rightSide = xbox.getRawAxis(5);
 		// This makes sure that the autonomous stops running when
@@ -70,6 +78,9 @@ public class Robot extends IterativeRobot
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
         Robot.tankDrive(leftSide, rightSide);
+        Robot.setSafetyEnabled(isEnabled());
+        Robot.drive(lift, 0);
+        Robot.
     }
     /**
      * This function is called when the disabled button is hit.
