@@ -78,16 +78,16 @@ public class Robot extends IterativeRobot
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-<<<<<<< HEAD
+//<<<<<<< HEAD
         
-        theRobot.tankDrive(leftSide, rightSide);
+        Robot.tankDrive(leftSide, rightSide);
         
-=======
+//=======
         Robot.tankDrive(leftSide, rightSide);
         Robot.setSafetyEnabled(isEnabled());
         Robot.drive(lift, 0);
         //Robot. - what were you going to do here David?
->>>>>>> origin/master
+//>>>>>>> origin/master
     }
     /**
      * This function is called when the disabled button is hit.
