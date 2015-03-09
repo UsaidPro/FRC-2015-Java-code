@@ -1,12 +1,13 @@
-//NOTE-'
+//TODO Fix the main code::: under Robot.java
 // THIS CODE WON'T WORK for sure - no idea how to do this right + no testing = 100% chance to fail in coding
 //This was based off example code - not perfect
 //Autonomous will need edits
-//All comments done here were by FRC or Usaid
-//David testing
+//All comments done here were by FRC and Usaid and David
+
 package org.usfirst.frc.team5431.robot;
-
-
+//This class corresponds each area with whatever period it is in such as Auto or Teleop
+//To configure joystick buttons/mappings go to IO.java
+//To map what motor controllers/sensors go where go to RobotMap.java
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -44,7 +45,7 @@ Axis indexes for Xbox Controller:
 6 - DPad Left/Right
 */
 	
-	int AutoLoopCounter;  //Counts how many seconds have passed during autom, increases during autonomous
+	int AutoLoopCounter;  //Counts how many seconds have passed during AUTON, increases during autonomous
     // ^The AutoLoopCounter is removable, only for functionality
 	
 	

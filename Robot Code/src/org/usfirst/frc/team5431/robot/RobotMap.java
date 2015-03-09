@@ -1,10 +1,6 @@
 package org.usfirst.frc.team5431.robot;
-/**
- * The RobotMap is a mapping from the ports sensors and actuators are wired into
- * to a variable name. This provides flexibility changing wiring, makes checking
- * the wiring easier and significantly reduces the number of magic numbers
- * floating around.
- */
+//This class is made to map sensors and motor controllers to the Robot.java 
+//The difference between this and IO.java 
 public class RobotMap {
     // To Map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.
