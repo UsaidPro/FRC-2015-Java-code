@@ -86,7 +86,7 @@ public class Robot extends IterativeRobot
         Robot.tankDrive(leftSide, rightSide);
         Robot.setSafetyEnabled(isEnabled());
         Robot.drive(lift, 0);
-        Robot.
+        //Robot. - what were you going to do here David?
 >>>>>>> origin/master
     }
     /**
