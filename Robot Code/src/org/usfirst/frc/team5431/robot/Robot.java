@@ -9,17 +9,19 @@ package org.usfirst.frc.team5431.robot;
 //To configure joystick buttons/mappings go to IO.java
 //To map what motor controllers/sensors go where go to RobotMap.java
 import edu.wpi.first.wpilibj.GenericHID;
-
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc.team5431.robot.commands.ExampleCommand;
 import org.usfirst.frc.team5431.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team5431.robot.OI;
@@ -29,17 +31,18 @@ public class Robot extends IterativeRobot
 	Command autonomousCommand; //did this to get rid of the error?(Usaid)
 	int AutoLoopCounter;  //Counts how many seconds have passed during AUTON, increases during autonomous
     // ^The AutoLoopCounter is removable, it's only for functionality
-	RobotDrive Robot; // Robot object
-	VictorSP lift;
-	Talon left;
-	Talon right;
-	Joystick xbox; //Drive the robot
-	Joystick logitech; //Operate the lift
+	private RobotDrive Robot; // Robot object
+	private VictorSP lift;
+	private Talon left;
+	private Talon right;
+	private Joystick xbox; //Drive the robot
+	private Joystick logitech; //Operate the lift
+	private final double updatePeriod = 0.005; // update every 0.005 seconds/5 milliseconds (200Hz)
 	//These two variable below were copy/pasted from RobotMap.java (have no idea how to make files access
 	//one another in Java
     public void robotInit() {
-    	xbox = new Joystick(0);
-    	logitech = new Joystick(1);
+    	xbox = new Joystick(0);//Set joystick xbox to port 0
+    	logitech = new Joystick(1);//Set joystick logitech to port 1
     	int leftMotor = RobotMap.leftmotor;//Get motor port from RobotMap.java for left motor
     	int rightMotor = RobotMap.rightmotor;//Get motor port from RobotMap.java for right motor
     	int liftMotor = RobotMap.liftmotor;//Get motor port from RobotMap.java for
@@ -62,7 +65,6 @@ public class Robot extends IterativeRobot
         
         //This is where commands that robot would only do once (AT THE BEGINNING of auto) should go
         // Maybe autonomousCommand.start() means to start a series of commands? Where would those be?
-
     }
 
     /**
@@ -75,21 +77,15 @@ public class Robot extends IterativeRobot
 
     public void teleopInit() // This runs when teleop is activated by judge/FMS field thingy
     {
-    	double Lift = logitech.getRawAxis(2);
-    	double leftSide = xbox.getRawAxis(2);
-    	double rightSide = xbox.getRawAxis(5);
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null) autonomousCommand.cancel();
-//<<<<<<< HEAD
-        
-//=======
-        Robot.tankDrive(leftSide, rightSide);
-        Robot.setSafetyEnabled(isEnabled());
-        lift.set(Lift);
-//>>>>>>> origin/master
+        if (autonomousCommand != null) autonomousCommand.cancel();//This doesn't effect anything below here
+        Robot.tankDrive(xbox.getRawAxis(2), xbox.getRawAxis(5));//Tank drive directly from Joysticks
+        Robot.setSafetyEnabled(isEnabled());//Set safety so robot doesn't go kasplat 
+        lift.set(logitech.getY());//Lift drive directly from Joystick
+		Timer.delay(updatePeriod);	// wait 5ms to the next update
     }
     /**
      * This function is called when the disabled button is hit.
@@ -97,7 +93,10 @@ public class Robot extends IterativeRobot
      */
     public void disabledInit()
     {
-
+    	Robot.tankDrive(0, 0);//Turn off drive motors when disabled
+    	lift.set(0);//Turn off lift motors when disabled
+    	SmartDashboard.putBoolean("tele", false);//Set dashboard value tele to false
+    	SmartDashboard.putBoolean("auton", false);//Set dashboard value auton to false
     }
 
     /**
