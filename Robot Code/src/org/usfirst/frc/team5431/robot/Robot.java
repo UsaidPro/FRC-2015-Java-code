@@ -9,6 +9,7 @@ package org.usfirst.frc.team5431.robot;
 //To configure joystick buttons/mappings go to IO.java
 //To map what motor controllers/sensors go where go to RobotMap.java
 import edu.wpi.first.wpilibj.GenericHID;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
@@ -30,6 +31,8 @@ public class Robot extends IterativeRobot
     // ^The AutoLoopCounter is removable, it's only for functionality
 	RobotDrive Robot; // Robot object
 	VictorSP lift;
+	Talon left;
+	Talon right;
 	Joystick xbox; //Drive the robot
 	Joystick logitech; //Operate the lift
 	//These two variable below were copy/pasted from RobotMap.java (have no idea how to make files access
@@ -41,7 +44,9 @@ public class Robot extends IterativeRobot
     	int rightMotor = RobotMap.rightmotor;//Get motor port from RobotMap.java for right motor
     	int liftMotor = RobotMap.liftmotor;//Get motor port from RobotMap.java for
     	lift = new VictorSP(liftMotor);
-    	Robot = new RobotDrive(leftMotor, rightMotor); // This sets theRobot to have motors at ports 0 and 1
+    	left = new Talon(leftMotor);
+    	right = new Talon(rightMotor);
+    	Robot = new RobotDrive(left, right); // This sets theRobot to have motors at ports 0 and 1
     }
 	
 	public void disabledPeriodic() //Default function
@@ -70,7 +75,7 @@ public class Robot extends IterativeRobot
 
     public void teleopInit() // This runs when teleop is activated by judge/FMS field thingy
     {
-    	double lift = logitech.getRawAxis(2);
+    	double Lift = logitech.getRawAxis(2);
     	double leftSide = xbox.getRawAxis(2);
     	double rightSide = xbox.getRawAxis(5);
 		// This makes sure that the autonomous stops running when
@@ -80,13 +85,10 @@ public class Robot extends IterativeRobot
         if (autonomousCommand != null) autonomousCommand.cancel();
 //<<<<<<< HEAD
         
-        Robot.tankDrive(leftSide, rightSide);
-        
 //=======
         Robot.tankDrive(leftSide, rightSide);
         Robot.setSafetyEnabled(isEnabled());
-        Robot.drive(lift, 0);
-        //Robot. - what were you going to do here David?
+        lift.set(Lift);
 //>>>>>>> origin/master
     }
     /**
