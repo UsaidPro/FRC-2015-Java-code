@@ -1,55 +1,23 @@
-//TODO Fix the main code::: under Robot.java
-// THIS CODE WON'T WORK for sure - no idea how to do this right + no testing = 100% chance to fail in coding
-//This was based off example code - not perfect
-//Autonomous will need edits
-//All comments done here were by FRC and Usaid and David
-
 package org.usfirst.frc.team5431.robot;
-//This class corresponds each area with whatever period it is in such as Auto or Teleop
-//To configure joystick buttons/mappings go to IO.java
-//To map what motor controllers/sensors go where go to RobotMap.java
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team5431.robot.commands.ExampleCommand;
-import org.usfirst.frc.team5431.robot.subsystems.ExampleSubsystem;
-import org.usfirst.frc.team5431.robot.OI;
-import org.usfirst.frc.team5431.robot.RobotMap;
+import org.usfirst.frc.team5431.robot.commands.Teleop;
+import org.usfirst.frc.team5431.robot.commands.Autonomous;
+import org.usfirst.frc.team5431.robot.subsystems.Motorcontrol;
 public class Robot extends IterativeRobot
 {
-	Command autonomousCommand; //did this to get rid of the error?(Usaid)
+	Command autonomous;//Start autonomous command
+	Command teleop;//Start the teleop command
+	public static Subsystem Motorcontrol;//Start motor control Subsystem
 	int AutoLoopCounter;  //Counts how many seconds have passed during AUTON, increases during autonomous
     // ^The AutoLoopCounter is removable, it's only for functionality
-	private RobotDrive Robot; // Robot object
-	private VictorSP lift;
-	private Talon left;
-	private Talon right;
-	private Joystick xbox; //Drive the robot
-	private Joystick logitech; //Operate the lift
-	private final double updatePeriod = 0.005; // update every 0.005 seconds/5 milliseconds (200Hz)
-	//These two variable below were copy/pasted from RobotMap.java (have no idea how to make files access
-	//one another in Java
     public void robotInit() {
-    	xbox = new Joystick(0);//Set joystick xbox to port 0
-    	logitech = new Joystick(1);//Set joystick logitech to port 1
-    	int leftMotor = RobotMap.leftmotor;//Get motor port from RobotMap.java for left motor
-    	int rightMotor = RobotMap.rightmotor;//Get motor port from RobotMap.java for right motor
-    	int liftMotor = RobotMap.liftmotor;//Get motor port from RobotMap.java for
-    	lift = new VictorSP(liftMotor);
-    	left = new Talon(leftMotor);
-    	right = new Talon(rightMotor);
-    	Robot = new RobotDrive(left, right); // This sets theRobot to have motors at ports 0 and 1
+    	teleop = new Teleop();//Start teleop Command
+    	autonomous = new Autonomous();//Start autonomous Command
+    	Motorcontrol = new Motorcontrol();//start MotorControl Subsystem
     }
 	
 	public void disabledPeriodic() //Default function
@@ -61,42 +29,23 @@ public class Robot extends IterativeRobot
     public void autonomousInit() //Starts when judge begins autonomous
     {
         // schedule the autonomous command
-        if (autonomousCommand != null) autonomousCommand.start(); // If autonomous is off, start it
-        
-        //This is where commands that robot would only do once (AT THE BEGINNING of auto) should go
-        // Maybe autonomousCommand.start() means to start a series of commands? Where would those be?
+        if (autonomous != null) autonomous.start(); // If autonomous is off, start it
     }
-
-    /**
-     * This function is called periodically during autonomous
-     */
     public void autonomousPeriodic() // This function is called periodically during autonomous
     {
         Scheduler.getInstance().run(); //This will run in a loop
     }
-
     public void teleopInit() // This runs when teleop is activated by judge/FMS field thingy
     {
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
-        // this line or comment it out.
-        if (autonomousCommand != null) autonomousCommand.cancel();//This doesn't effect anything below here
-        Robot.tankDrive(xbox.getRawAxis(2), xbox.getRawAxis(5));//Tank drive directly from Joysticks
-        Robot.setSafetyEnabled(isEnabled());//Set safety so robot doesn't go kasplat 
-        lift.set(logitech.getY());//Lift drive directly from Joystick
-		Timer.delay(updatePeriod);	// wait 5ms to the next update
+          if (autonomous != null) autonomous.cancel();//This doesn't effect anything below here
+          teleop.start();
     }
-    /**
-     * This function is called when the disabled button is hit.
-     * You can use it to reset subsystems before shutting down.
-     */
-    public void disabledInit()
-    {
-    	Robot.tankDrive(0, 0);//Turn off drive motors when disabled
-    	lift.set(0);//Turn off lift motors when disabled
-    	SmartDashboard.putBoolean("tele", false);//Set dashboard value tele to false
-    	SmartDashboard.putBoolean("auton", false);//Set dashboard value auton to false
+    public void disabledInit(){//This function is called when the disabled button is hit. You can use it to reset subsystems before shutting down.
+    teleop.cancel();
+    autonomous.cancel();
     }
 
     /**
