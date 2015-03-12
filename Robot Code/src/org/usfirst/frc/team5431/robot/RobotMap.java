@@ -5,8 +5,8 @@ public class RobotMap {
     public static int leftmotor = 0;//port for leftMotor
     public static int rightmotor = 1;//port for rightMotor
     public static int liftmotor = 2;//port for liftMotor
-    public static int autochooser1 = 0;//port for up
-    public static int autochooser1 = 0;//port for up
-    public static int autochooser1 = 0;//port for up
-    public static int autochooser1 = 0;//port for up
+    public static int auto_onoff = 0;//port for autonomous on/off
+    public static int auto1 = 1;//port for autonmous program 1
+    public static int auto2 = 2;//port for autonmous program 2
+    public static int auto3 = 3;//port for autonmous program 3
 }
