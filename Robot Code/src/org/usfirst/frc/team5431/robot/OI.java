@@ -50,7 +50,7 @@ public class OI {
     //END of Xbox mapping
     //////////////////////For Logitech controller
     public static Joystick logitech = new Joystick(1);//Created the Joystick called Logitech on port 1
-    Button logitechT = new JoystickButton(logitech, 1);//access button (Trigger) on joystick Logitech and button number(whatever) (stick, buttonNumber)
+    public static Button logitechT = new JoystickButton(logitech, 1);//access button (Trigger) on joystick Logitech and button number(whatever) (stick, buttonNumber)
     Button logitechThumb = new JoystickButton(logitech, 2);//access button (Thumb button aka 2) on joystick Logitech and button number(whatever) (stick, buttonNumber)
     Button logitechBl = new JoystickButton(logitech, 3);//access button (bottom left aka 3) on joystick Logitech and button number(whatever) (stick, buttonNumber)
     Button logitechBR = new JoystickButton(logitech, 4);//access button (bottom right aka 4) on joystick Logitech and button number(whatever) (stick, buttonNumber)

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5431.robot.commands;
 import org.usfirst.frc.team5431.robot.Robot;//Import Robot.java
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import org.usfirst.frc.team5431.robot.RobotMap;//Import Robot map to map switches
 import edu.wpi.first.wpilibj.DigitalInput;//Import digital input so you can 
 import org.usfirst.frc.team5431.robot.subsystems.Motorcontrol;//Import motor control so you can move
@@ -8,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;//Import the Command base system
 public class Autonomous extends Command {
 //This is the Autonmous Command  is where all the code for auton is... the subsystem that is located in this is called Motorcontrol
 //Go to Motorcontrol to find more info on forward backward etc...
+	BuiltInAccelerometer accel;
 	DigitalInput on_off;//New input on Roborio
 	DigitalInput auto1;//New input on Roborio
 	DigitalInput auto2;//New input on Roborio
@@ -17,6 +19,7 @@ public class Autonomous extends Command {
     }
     // Called just before this Command runs the first time
     protected void initialize() {
+    	accel = new BuiltInAccelerometer();
     	on_off = new DigitalInput(RobotMap.auto_onoff);//Import DIO pin on_off from RobotMap
     	auto1 = new DigitalInput(RobotMap.auto1);//Import DIO pin auto1 from RobotMap
     	auto2 = new DigitalInput(RobotMap.auto2);//Import DIO pin auto2 from RobotMap
@@ -53,7 +56,7 @@ public class Autonomous extends Command {
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;//You only need to run this command once
+        return false;//You only need to run this command once but set it to false so it won't interrupt anything
     }
 
     // Called once after isFinished returns true
