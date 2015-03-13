@@ -41,7 +41,7 @@ public class OI {
     public static Joystick xbox = new Joystick(0);//Created the Joystick called Xbox on port 0
     Button xboxA = new JoystickButton(xbox, 1);//access button (A) on joystick XBOX and button number(whatever) (stick, buttonNumber)
     Button xboxB = new JoystickButton(xbox, 2);//access button (B) on joystick XBOX and button number(whatever) (stick, buttonNumber)
-    Button xboxX = new JoystickButton(xbox, 3);//access button (X) on joystick XBOX and button number(whatever) (stick, buttonNumber)
+    public static Button xboxX = new JoystickButton(xbox, 3);//access button (X) on joystick XBOX and button number(whatever) (stick, buttonNumber)
     Button xboxY = new JoystickButton(xbox, 4);//access button (Y) on joystick XBOX and button number(whatever) (stick, buttonNumber)
     Button xboxRB = new JoystickButton(xbox, 6);//access button (RB) on joystick XBOX and button number(whatever) (stick, buttonNumber)
     Button xboxLB = new JoystickButton(xbox, 5);//access button (LB) on joystick XBOX and button number(whatever) (stick, buttonNumber)

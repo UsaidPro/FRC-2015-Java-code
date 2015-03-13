@@ -1,78 +1,70 @@
 package org.usfirst.frc.team5431.robot.commands;
-import org.usfirst.frc.team5431.robot.Robot;
-import org.usfirst.frc.team5431.robot.RobotMap;
-import edu.wpi.first.wpilibj.DigitalInput;
-
-import org.usfirst.frc.team5431.robot.subsystems.Motorcontrol;
-
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team5431.robot.Robot;//Import Robot.java
+import org.usfirst.frc.team5431.robot.RobotMap;//Import Robot map to map switches
+import edu.wpi.first.wpilibj.DigitalInput;//Import digital input so you can 
+import org.usfirst.frc.team5431.robot.subsystems.Motorcontrol;//Import motor control so you can move
+import edu.wpi.first.wpilibj.Timer;//Import timer so it can run those commands
+import edu.wpi.first.wpilibj.command.Command;//Import the Command base system
 public class Autonomous extends Command {
-	DigitalInput on_off;
-	DigitalInput auto1;
-	DigitalInput auto2;
-	DigitalInput auto3;
+//This is the Autonmous Command  is where all the code for auton is... the subsystem that is located in this is called Motorcontrol
+//Go to Motorcontrol to find more info on forward backward etc...
+	DigitalInput on_off;//New input on Roborio
+	DigitalInput auto1;//New input on Roborio
+	DigitalInput auto2;//New input on Roborio
+	DigitalInput auto3;//New input on Roborio
     public Autonomous() {
-        requires(Robot.Motorcontrol);
+        requires(Robot.Motorcontrol);//Import subsystem Motorcontrol to control forward backward etc...
     }
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Motorcontrol.stopdrive();
-    	Motorcontrol.stoplift();
-    	on_off = new DigitalInput(RobotMap.auto_onoff);
-    	auto1 = new DigitalInput(RobotMap.auto1);
-    	auto2 = new DigitalInput(RobotMap.auto2);
-    	auto3 = new DigitalInput(RobotMap.auto3);
+    	on_off = new DigitalInput(RobotMap.auto_onoff);//Import DIO pin on_off from RobotMap
+    	auto1 = new DigitalInput(RobotMap.auto1);//Import DIO pin auto1 from RobotMap
+    	auto2 = new DigitalInput(RobotMap.auto2);//Import DIO pin auto2 from RobotMap
+    	auto3 = new DigitalInput(RobotMap.auto3);//Import DIO pin auto3 from RobotMap
     }
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(on_off.get() == true){
-    		if(auto1.get() == true && auto2.get() == false && auto3.get()==false){
-    			Motorcontrol.forward();
-    			Timer.delay(1);
-    			Motorcontrol.stopdrive();
-    		}else if(auto1.get() == false && auto2.get() == true && auto3.get() == false){
-    			Motorcontrol.backward();
-    			Timer.delay(1);
-    			Motorcontrol.stopdrive();
-    		}else if(auto1.get() == false && auto2.get() == false && auto3.get() == true){
-    			Motorcontrol.backward();
-    			Timer.delay(1);
-    			Motorcontrol.forward();
-    			Timer.delay(0.5);
-    			Motorcontrol.stopdrive();
-    		}else{
-    			Motorcontrol.forward();
-    			Timer.delay(1);
-    			Motorcontrol.stopdrive();
+    	if(on_off.get() == true){//If the Main on/off switch is on then run whatever below::: else Run nothing
+    		if(auto1.get() == true && auto2.get() == false && auto3.get()==false){//If auto1 is true and the rest are false then run auto 1
+    			Motorcontrol.forward();//move forward
+    			Timer.delay(1);//For 1 second
+    			Motorcontrol.stopdrive();//stop
+    		}else if(auto1.get() == false && auto2.get() == true && auto3.get() == false){//Else If auto2 is true and the rest are false then run auto 2
+    			Motorcontrol.backward();//move backward
+    			Timer.delay(1);//for 1 second
+    			Motorcontrol.stopdrive();//stop
+    		}else if(auto1.get() == false && auto2.get() == false && auto3.get() == true){//Else If auto3 is true and the rest are false then run auto 3
+    			Motorcontrol.backward();//Move backward
+    			Timer.delay(1);//for 1 second
+    			Motorcontrol.forward();//move forward 
+    			Timer.delay(0.5);//for 1/2 second
+    			Motorcontrol.stopdrive();//stop
+    		}else{//If one of the switches have 2 trues or none of them are on then run this
+    			Motorcontrol.forward();//Move forward
+    			Timer.delay(1);//for 1 second
+    			Motorcontrol.stopdrive();//stop
     		}
-    	}else{
-    		Motorcontrol.stopdrive();
-    		Timer.delay(0.05);
-    		Motorcontrol.stoplift();
+    	}else{//If the main switch is off run this
+    		Motorcontrol.stopdrive();//stopdrive
+    		Timer.delay(0.05);//wait so no interruption
+    		Motorcontrol.stoplift();//stoplift
     	}
-    Motorcontrol.forward();
-    Timer.delay(1);
-    Motorcontrol.backward();
-    Timer.delay(1);
-    Motorcontrol.stopdrive();
-    
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return true;//You only need to run this command once
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Motorcontrol.stopdrive();
-    	Motorcontrol.stoplift();
+		Motorcontrol.stopdrive();//stop
+		Motorcontrol.stoplift();//stop
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
+    	end();//If there is a interruption call end(); p.s. it's right above
     }
 }
