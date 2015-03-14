@@ -21,6 +21,7 @@ public class Teleop extends Command {
 	Button x;//Get button x from Xbox controller
 	Button Trigger;//Get the Trigger button from Logitech controller
 	final double updatePeriod = 0.005; // update every 0.005 seconds/5 milliseconds (200Hz)
+	boolean finished = false;
     public Teleop() {
         // Use requires() here to declare subsystem dependencies
         
@@ -66,17 +67,16 @@ public class Teleop extends Command {
     }else{//If last value has changed
     	slowmo = 1.5;//Divide speed by 1.5
     }
-    double leftfinal = xbox.getRawAxis(2)/slowmo;//Slow down Left motors by toggle//Left motors get from Xbox left stick
-    double rightfinal = xbox.getRawAxis(5)/slowmo;//Slow down right motors by toggle//Right motors get from Xbox right stick
-    double finallift = logitech.getRawAxis(2)/liftslowmo;//Divide final lift by whatever slowmo was//Lift motor get from Logitech stick
-    Robot.tankDrive(leftfinal, rightfinal);//Tank drive directly from Joysticks
+    Robot.tankDrive(xbox.getRawAxis(2)/slowmo, xbox.getRawAxis(5)/slowmo);//Tank drive directly from Joysticks//Divide final lift by whatever slowmo was//Lift motor get from Logitech stick
+    //Slow down right motors by toggle//Right motors get from Xbox right stick
+    //Slow down Left motors by toggle//Left motors get from Xbox left stick
 	Robot.setSafetyEnabled(true);//Set safety so robot doesn't go kasplat 
-    lift.set(finallift);//Lift drive directly from Joystick
+    lift.set(logitech.getRawAxis(2)/liftslowmo);//Lift drive directly from Joystick
 	Timer.delay(updatePeriod);	// wait 5ms to the next update
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;//This command does need to run again
+        return finished;//This command does need to run again so once the interrupted is called to become true this becomes true
     }
 
     // Called once after isFinished returns true
@@ -93,6 +93,7 @@ public class Teleop extends Command {
     	try{
     		execute();//If interrupted try running the program once more
     	}finally{
+    		finished = true;//Once the cancel command send is isFinished true
     		end();//If not working just end this will make sure that when cancel(); is called you have a shot at something
     	}
     }
