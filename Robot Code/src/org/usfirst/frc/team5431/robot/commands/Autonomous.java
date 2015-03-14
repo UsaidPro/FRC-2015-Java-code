@@ -14,6 +14,7 @@ public class Autonomous extends Command {
 	DigitalInput auto1;//New input on Roborio
 	DigitalInput auto2;//New input on Roborio
 	DigitalInput auto3;//New input on Roborio
+	boolean finished = false;
     public Autonomous() {
         requires(Robot.Motorcontrol);//Import subsystem Motorcontrol to control forward backward etc...
     }
@@ -56,7 +57,7 @@ public class Autonomous extends Command {
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;//You only need to run this command once but set it to false so it won't interrupt anything
+        return finished;//This command does need to run again so once the interrupted is called to become true this becomes true
     }
 
     // Called once after isFinished returns true
@@ -68,6 +69,7 @@ public class Autonomous extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	finished = true;//Once the cancel command send is isFinished true
     	end();//If there is a interruption call end(); p.s. it's right above
     }
 }
