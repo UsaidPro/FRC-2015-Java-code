@@ -6,10 +6,12 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team5431.robot.OI;
 import org.usfirst.frc.team5431.robot.RobotMap;
 public class Teleop extends Command {
+	PowerDistributionPanel PDP;//Create Power Distribution Panel
 	RobotDrive Robot; // Robot object
 	VictorSP lift;//Set lift motor
 	Talon left;//Set left motor
@@ -26,10 +28,11 @@ public class Teleop extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	PDP = new PowerDistributionPanel();//New Distribution Panel
     	xbox = OI.xbox;//Set xbox Joystick
     	logitech = OI.logitech;//Set logitech joystick
-    	x = OI.xboxX;
-    	Trigger = OI.logitechT;
+    	x = OI.xboxX;//Set x button
+    	Trigger = OI.logitechT;//Set Trigger button
     	lift = new VictorSP(RobotMap.liftmotor);//Set motor controller for lift
     	left = new Talon(RobotMap.leftmotor);//Set motor controller for left wheels
     	right = new Talon(RobotMap.rightmotor);//Set motor controller for right wheels
@@ -38,6 +41,9 @@ public class Teleop extends Command {
     
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    PDP.clearStickyFaults();//Clear any faults before continuing
+    SmartDashboard.putNumber("Temp", PDP.getTemperature());//Smartdashboard put PDP temperature
+    SmartDashboard.putNumber("Power", PDP.getTotalPower());//Smartdashboard put PDP Total Power
     double slowmo = 1.1;//Default slowmo for wheels
     double liftslowmo;//Slowmo for lift
     boolean last;//Last boolean value
