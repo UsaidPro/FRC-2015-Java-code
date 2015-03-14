@@ -15,11 +15,13 @@ public class Autonomous extends Command {
 	DigitalInput auto2;//New input on Roborio
 	DigitalInput auto3;//New input on Roborio
 	boolean finished = false;
-    public Autonomous() {
+    public Autonomous() 
+    {
         requires(Robot.Motorcontrol);//Import subsystem Motorcontrol to control forward backward etc...
     }
     // Called just before this Command runs the first time
-    protected void initialize() {
+    protected void initialize() 
+    {
     	accel = new BuiltInAccelerometer();
     	on_off = new DigitalInput(RobotMap.auto_onoff);//Import DIO pin on_off from RobotMap
     	auto1 = new DigitalInput(RobotMap.auto1);//Import DIO pin auto1 from RobotMap
@@ -28,47 +30,61 @@ public class Autonomous extends Command {
     }
     
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	if(on_off.get() == true){//If the Main on/off switch is on then run whatever below::: else Run nothing
-    		if(auto1.get() == true && auto2.get() == false && auto3.get()==false){//If auto1 is true and the rest are false then run auto 1
+    protected void execute() 
+    {
+    	if(on_off.get() == true)
+    	{//If the Main on/off switch is on then run whatever below::: else Run nothing
+    		if(auto1.get() == true && auto2.get() == false && auto3.get()==false)
+    		{//If auto1 is true and the rest are false then run auto 1
     			Motorcontrol.forward();//move forward
     			Timer.delay(1);//For 1 second
     			Motorcontrol.stopdrive();//stop
-    		}else if(auto1.get() == false && auto2.get() == true && auto3.get() == false){//Else If auto2 is true and the rest are false then run auto 2
+    		}
+    		else if(auto1.get() == false && auto2.get() == true && auto3.get() == false)
+    		{//Else If auto2 is true and the rest are false then run auto 2
     			Motorcontrol.backward();//move backward
     			Timer.delay(1);//for 1 second
     			Motorcontrol.stopdrive();//stop
-    		}else if(auto1.get() == false && auto2.get() == false && auto3.get() == true){//Else If auto3 is true and the rest are false then run auto 3
+    		}
+    		else if(auto1.get() == false && auto2.get() == false && auto3.get() == true)
+    		{//Else If auto3 is true and the rest are false then run auto 3
     			Motorcontrol.backward();//Move backward
     			Timer.delay(1);//for 1 second
     			Motorcontrol.forward();//move forward 
     			Timer.delay(0.5);//for 1/2 second
     			Motorcontrol.stopdrive();//stop
-    		}else{//If one of the switches have 2 trues or none of them are on then run this
+    		}
+    		else
+    		{//If one of the switches have 2 trues or none of them are on then run this
     			Motorcontrol.forward();//Move forward
     			Timer.delay(1);//for 1 second
     			Motorcontrol.stopdrive();//stop
     		}
-    	}else{//If the main switch is off run this
+    	}
+    	else
+    	{//If the main switch is off run this
     		Motorcontrol.stopdrive();//stopdrive
     		Timer.delay(0.05);//wait so no interruption
     		Motorcontrol.stoplift();//stoplift
     	}
     }
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
+    protected boolean isFinished() 
+    {
         return finished;//This command does need to run again so once the interrupted is called to become true this becomes true
     }
 
     // Called once after isFinished returns true
-    protected void end() {
+    protected void end() 
+    {
 		Motorcontrol.stopdrive();//stop
 		Motorcontrol.stoplift();//stop
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() {
+    protected void interrupted() 
+    {
     	finished = true;//Once the cancel command send is isFinished true
     	end();//If there is a interruption call end(); p.s. it's right above
     }

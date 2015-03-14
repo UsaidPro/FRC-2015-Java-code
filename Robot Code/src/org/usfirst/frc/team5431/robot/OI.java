@@ -5,7 +5,8 @@ import edu.wpi.first.wpilibj.Joystick;//Imported the stuff to control the Joysti
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 ////// This class is for connecting the computer to robot with the joystick values
-public class OI {
+public class OI 
+{
     ////////////////////////////////THE MAPPING OF THE BUTTONS/AXIS(Xbox Controller)
 	//////////// All axis are a value from (-1 to 1) some are different and most are inverted
 	///// button x = 3

@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team5431.robot.OI;
 import org.usfirst.frc.team5431.robot.RobotMap;
-public class Teleop extends Command {
+public class Teleop extends Command 
+{
 	PowerDistributionPanel PDP;//Create Power Distribution Panel
 	RobotDrive Robot; // Robot object
 	VictorSP lift;//Set lift motor
@@ -22,13 +23,15 @@ public class Teleop extends Command {
 	Button Trigger;//Get the Trigger button from Logitech controller
 	final double updatePeriod = 0.005; // update every 0.005 seconds/5 milliseconds (200Hz)
 	boolean finished = false;
-    public Teleop() {
+    public Teleop() 
+    {
         // Use requires() here to declare subsystem dependencies
         
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
+    protected void initialize() 
+    {
     	PDP = new PowerDistributionPanel();//New Distribution Panel
     	xbox = OI.xbox;//Set xbox Joystick
     	logitech = OI.logitech;//Set logitech joystick
@@ -41,7 +44,8 @@ public class Teleop extends Command {
     }
     
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void execute() 
+    {
     PDP.clearStickyFaults();//Clear any faults before continuing
     SmartDashboard.putNumber("Temp", PDP.getTemperature());//Smartdashboard put PDP temperature
     SmartDashboard.putNumber("Power", PDP.getTotalPower());//Smartdashboard put PDP Total Power
@@ -49,22 +53,36 @@ public class Teleop extends Command {
     double liftslowmo;//Slowmo for lift
     boolean last;//Last boolean value
     boolean current = true;//Initialize current value as true
-    if(Trigger.get() == true){//If trigger is pressed slow down lift
+    if(Trigger.get() == true)
+    {//If trigger is pressed slow down lift
     	liftslowmo = 1.4;//Slow down by %40
-    }else{//If it's not pushed
+    }
+    else
+    {//If it's not pushed
     	liftslowmo = 1;//Keep value of %100
     }
-    if(x.get() != false){//If button = true
+    if(x.get() != false)
+    {//If button = true
     	current = true;//Set current value true
-    }else{//If button not = true
+    }
+    else
+    {//If button not = true
     	current = false;//Set current value false
-    }if(x.get() == current){//If button = current
+    }
+    if(x.get() == current)
+    {//If button = current
     		last = !current;//Last = not current which could be true by the way
-    }else{//If button != current
+    }
+    else
+    {//If button != current
     	last = true;//Last = true
-    }if(last == current){//If last value = current value than keep value
+    }
+    if(last == current)
+    {//If last value = current value than keep value
     	slowmo = 1.1;//Divide speed by 1
-    }else{//If last value has changed
+    }
+    else
+    {//If last value has changed
     	slowmo = 1.5;//Divide speed by 1.5
     }
     Robot.tankDrive(xbox.getRawAxis(2)/slowmo, xbox.getRawAxis(5)/slowmo);//Tank drive directly from Joysticks//Divide final lift by whatever slowmo was//Lift motor get from Logitech stick
@@ -75,12 +93,14 @@ public class Teleop extends Command {
 	Timer.delay(updatePeriod);	// wait 5ms to the next update
     }
     // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
+    protected boolean isFinished() 
+    {
         return finished;//This command does need to run again so once the interrupted is called to become true this becomes true
     }
 
     // Called once after isFinished returns true
-    protected void end() {
+    protected void end() 
+    {
       	Robot.tankDrive(0, 0);//Turn off drive motors when disabled
       	lift.set(0);//Turn off lift motors when disabled
       	SmartDashboard.putBoolean("tele", false);//Set dashboard value tele to false
@@ -89,10 +109,14 @@ public class Teleop extends Command {
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
-    protected void interrupted() {
-    	try{
+    protected void interrupted() 
+    {
+    	try
+    	{
     		execute();//If interrupted try running the program once more
-    	}finally{
+    	}
+    	finally
+    	{
     		finished = true;//Once the cancel command send is isFinished true
     		end();//If not working just end this will make sure that when cancel(); is called you have a shot at something
     	}
