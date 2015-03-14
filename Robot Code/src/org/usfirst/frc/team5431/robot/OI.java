@@ -1,10 +1,9 @@
 package org.usfirst.frc.team5431.robot;
 
 import edu.wpi.first.wpilibj.Joystick;//Imported the stuff to control the Joysticks
+
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-
-import org.usfirst.frc.team5431.robot.commands.ExampleCommand;
 ////// This class is for connecting the computer to robot with the joystick values
 public class OI {
     ////////////////////////////////THE MAPPING OF THE BUTTONS/AXIS(Xbox Controller)
@@ -39,10 +38,10 @@ public class OI {
     // You create one by telling it which joystick it's on and which button
     // number it is.
 	////////////////////////For Xbox Controller
-    Joystick xbox = new Joystick(0);//Created the Joystick called Xbox on port 0
+    public static Joystick xbox = new Joystick(0);//Created the Joystick called Xbox on port 0
     Button xboxA = new JoystickButton(xbox, 1);//access button (A) on joystick XBOX and button number(whatever) (stick, buttonNumber)
     Button xboxB = new JoystickButton(xbox, 2);//access button (B) on joystick XBOX and button number(whatever) (stick, buttonNumber)
-    Button xboxX = new JoystickButton(xbox, 3);//access button (X) on joystick XBOX and button number(whatever) (stick, buttonNumber)
+    public static Button xboxX = new JoystickButton(xbox, 3);//access button (X) on joystick XBOX and button number(whatever) (stick, buttonNumber)
     Button xboxY = new JoystickButton(xbox, 4);//access button (Y) on joystick XBOX and button number(whatever) (stick, buttonNumber)
     Button xboxRB = new JoystickButton(xbox, 6);//access button (RB) on joystick XBOX and button number(whatever) (stick, buttonNumber)
     Button xboxLB = new JoystickButton(xbox, 5);//access button (LB) on joystick XBOX and button number(whatever) (stick, buttonNumber)
@@ -50,8 +49,8 @@ public class OI {
     Button xboxRS = new JoystickButton(xbox, 10);//access button (RS)=right stick on joystick XBOX and button number(whatever) (stick, buttonNumber)
     //END of Xbox mapping
     //////////////////////For Logitech controller
-    Joystick logitech = new Joystick(1);//Created the Joystick called Logitech on port 1
-    Button logitechT = new JoystickButton(logitech, 1);//access button (Trigger) on joystick Logitech and button number(whatever) (stick, buttonNumber)
+    public static Joystick logitech = new Joystick(1);//Created the Joystick called Logitech on port 1
+    public static Button logitechT = new JoystickButton(logitech, 1);//access button (Trigger) on joystick Logitech and button number(whatever) (stick, buttonNumber)
     Button logitechThumb = new JoystickButton(logitech, 2);//access button (Thumb button aka 2) on joystick Logitech and button number(whatever) (stick, buttonNumber)
     Button logitechBl = new JoystickButton(logitech, 3);//access button (bottom left aka 3) on joystick Logitech and button number(whatever) (stick, buttonNumber)
     Button logitechBR = new JoystickButton(logitech, 4);//access button (bottom right aka 4) on joystick Logitech and button number(whatever) (stick, buttonNumber)
