@@ -151,7 +151,8 @@ public class Robot extends IterativeRobot
 	public static Subsystem Motorcontrol;//Start motor control Subsystem
 	int AutoLoopCounter;  //Counts how many seconds have passed during AUTON, increases during autonomous
     // ^The AutoLoopCounter is removable, it's only for functionality
-    public void robotInit() {
+    public void robotInit() 
+    {
     	teleop = new Teleop();//Start teleop Command
     	autonomous = new Autonomous();//Start autonomous Command
     	Motorcontrol = new Motorcontrol();//start MotorControl Subsystem
