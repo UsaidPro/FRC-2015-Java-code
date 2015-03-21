@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot
         Scheduler.getInstance().run(); //This will run in a loop
     }
     public void teleopInit() // This runs when teleop is activated by judge/FMS field thingy
-    {
+    { 
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove

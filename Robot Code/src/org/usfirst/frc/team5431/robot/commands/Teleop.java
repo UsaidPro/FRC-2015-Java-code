@@ -46,6 +46,7 @@ public class Teleop extends Command
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
+    	while (true){
     PDP.clearStickyFaults();//Clear any faults before continuing
     SmartDashboard.putNumber("Temp", PDP.getTemperature());//Smartdashboard put PDP temperature
     SmartDashboard.putNumber("Power", PDP.getTotalPower());//Smartdashboard put PDP Total Power
@@ -91,6 +92,7 @@ public class Teleop extends Command
 	Robot.setSafetyEnabled(true);//Set safety so robot doesn't go kasplat 
     lift.set(logitech.getRawAxis(2)/liftslowmo);//Lift drive directly from Joystick
 	Timer.delay(updatePeriod);	// wait 5ms to the next update
+    }
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() 
